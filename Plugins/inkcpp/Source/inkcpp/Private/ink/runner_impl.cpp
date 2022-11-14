@@ -428,20 +428,23 @@ namespace ink::runtime::internal
 	FString runner_impl::getline()
 	{
 		clear_tags();
-		FString result{};
+		FString result;
 		bool fill = false;
 		do {
 			if ( fill ) {
-				result += " ";
+				result.Append(" ");
 			}
 			// Advance interpreter one line
 			advance_line();
 			// Read lin ve into std::string
+
 			const char* str = _output.get_alloc(_globals->strings(), _globals->lists());
-			result.Append( str, c_str_len( str ) );
+			result.Append(UTF8_TO_TCHAR(str));
+			
 			fill = _output.last_char() == ' ';
 		} while ( _ptr != nullptr && _output.last_char() != '\n' );
 
+				
 		// TODO: fallback choice = no choice
 		if ( !has_choices() && _fallback_choice ) { choose( ~0 ); }
 

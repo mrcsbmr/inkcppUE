@@ -35,6 +35,7 @@ namespace ink
 			*/
 			int index() const { return _index; }
 
+#ifdef INK_ENABLE_STL
 			/**
 			 * Choice text
 			 *
@@ -43,6 +44,13 @@ namespace ink
 			 * @returns choice text as a string
 			 */
 			const char* text() const { return _text; }
+#endif
+
+#ifdef INK_ENABLE_UNREAL
+			// Reads a line into an Unreal FString
+			const FString text() const { return UTF8_TO_TCHAR(_text); }
+#endif
+			
 		private:
 			friend class internal::runner_impl;
 
